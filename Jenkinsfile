@@ -2,7 +2,7 @@ pipeline {
 	agent any
 		environment {
 			project = "shark-info"
-			registry = "dockerhub-user-name/registry-name"
+			registry = "jerinkumar/jenkins-ci-cd"
 			registryCredential = "DOCKERHUB_CRED"
 			dockerImage = ''
 			namespace = "${project}"
@@ -21,7 +21,7 @@ pipeline {
 		    stage("Push Docker Image") {
 				steps {
 					script {
-						docker.withRegistry( '', registryCredential ) {
+						docker.withRegistry( [string(credentialsId: 'DOCKERHUB_CRED', variable: 'registryCredential')], registryCredential ) {
 							dockerImage.push()
 						}
 					}
